@@ -1,1 +1,1 @@
-*Posting of paid content platform
+# Paid content posting platform
