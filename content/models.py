@@ -5,16 +5,23 @@ from users.models import User
 NULL = {'null': True, 'blank': True}
 
 
-
-class Content:
+class Album(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField()
+    description = models.CharField()
+    preview = models.ImageField(upload_to='content_previews/', **NULL)
+    is_free = models.BooleanField()
+    price = models.DecimalField(max_digits=10,decimal_places=2, **NULL)
+
+
+class Content(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
     name = models.CharField()
     description = models.CharField()
     preview = models.ImageField(upload_to='content_previews/', **NULL)
     video_file = models.FileField(upload_to='video/', **NULL)
     audio_file = models.FileField(upload_to='audio/', **NULL)
-    is_free = models.BooleanField()
-    price = models.DecimalField(decimal_places=2, **NULL)
 
     CATEGORY_CHOICES = [
         ('Art', 'Art'),
