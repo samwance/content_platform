@@ -56,11 +56,14 @@
                     1000 views
                 </div>
                 <div class="timestamp">
-                    <p> 10 min ago)</p>
+                    <p>10 min ago)</p>
                 </div>
             </div>
         </div>
         {% endfor %}
+        {% if not object_list %}
+        <p>Оформите подписку, чтобы увидеть платный контент</p>
+        {% endif %}
     </div>
 </div>
 </body>

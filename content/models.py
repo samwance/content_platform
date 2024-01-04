@@ -5,19 +5,8 @@ from users.models import User
 NULL = {'null': True, 'blank': True}
 
 
-class Album(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField()
-    description = models.CharField()
-    preview = models.ImageField(upload_to='content_previews/', **NULL)
-
-    def __str__(self):
-        return self.name
-
-
 class Content(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, **NULL)
+    user = models.ForeignKey(User, related_name='content_user', on_delete=models.CASCADE)
     name = models.CharField()
     description = models.CharField()
     preview = models.ImageField(upload_to='content_previews/', **NULL)

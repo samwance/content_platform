@@ -30,11 +30,8 @@
 <body>
 <div class="container">
     <div class="row">
-        {% for object in object_list %}
-        {% if forloop.counter0|divisibleby:4 %}
     </div>
     <div class="row">
-        {% endif %}
         <div class="feed-item">
             <div class="user-info">
                 @{{object.user}}
@@ -56,11 +53,10 @@
                     1000 views
                 </div>
                 <div class="timestamp">
-                    <p> 10 min ago)</p>
+                    <p> 10 min ago</p>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 </body>

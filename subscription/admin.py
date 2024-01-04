@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from subscription.models import Subscription
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)

@@ -30,4 +30,4 @@ class UserUpdateView(UpdateView):
 
     # Перенаправление на обновленную страницу профиля
     def get_success_url(self):
-        return reverse_lazy("users:profile", kwargs={"pk": self.object.pk})
+        return reverse_lazy("content:index", kwargs={"pk": self.object.pk})

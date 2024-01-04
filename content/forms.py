@@ -13,5 +13,5 @@ class StyleMixin:
 class ContentForm(StyleMixin, forms.ModelForm):
     class Meta:
         model = Content
-        fields = ('album', 'name', 'description', 'preview',)
+        fields = ('name', 'description', 'preview', 'is_free')
         widgets = {"is_free": forms.Select(choices=((True, "Yes"), (False, "No")))}
