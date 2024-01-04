@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'content/base.html' %}
+{% block content %}
+{% load l10n %}
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Page</title>
+    <style>
+        /* Add your CSS styles here */
+        .feed-item {
+          border: 1px solid #e1e1e1;
+          border-radius: 5px;
+          margin: 10px;
+          padding: 10px;
+        }
+        .user-info {
+          font-weight: bold;
+        }
+        .post-image {
+          max-width: 100%;
+          height: auto;
+        }
+        .post-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
+<div class="container">
+    <div class="row">
+        {% for object in object_list %}
+        {% if forloop.counter0|divisibleby:4 %}
+    </div>
+    <div class="row">
+        {% endif %}
+        <div class="feed-item">
+            <div class="user-info">
+                @{{object.user}}
+            </div>
+            {% if object.preview %}
+            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 57%;">
+            {% endif %}
+            <div class="post-content">
+                <p>{{ object.description }}</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 </body>
-</html>
+
+{% endblock %}
