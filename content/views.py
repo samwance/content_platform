@@ -1,4 +1,3 @@
-
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -9,14 +8,12 @@ from .models import Content
 
 
 class IndexView(TemplateView):
-    template_name = 'content/index.html'
-    extra_context = {
-        'title': 'Главная страница'
-    }
+    template_name = "content/index.html"
+    extra_context = {"title": "Главная страница"}
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['object_list'] = Content.objects.filter(is_free=True)
+        context_data["object_list"] = Content.objects.filter(is_free=True)
         return context_data
 
 
@@ -36,8 +33,8 @@ class ContentCreate(CreateView):
 
 class PaidContentList(ListView):
     model = Content
-    template_name = 'content/paid_content_list.html'
-    fields = '__all__'
+    template_name = "content/paid_content_list.html"
+    fields = "__all__"
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -58,18 +55,17 @@ class PaidContentList(ListView):
 
 class ContentDetail(DetailView):
     model = Content
-    template_name = 'content/content_detail.html'
-
+    template_name = "content/content_detail.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(pk=self.kwargs.get('pk'))
+        queryset = queryset.filter(pk=self.kwargs.get("pk"))
         return queryset
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        content_item = Content.objects.get(pk=self.kwargs.get('pk'))
-        context_data['title'] = content_item.name
+        content_item = Content.objects.get(pk=self.kwargs.get("pk"))
+        context_data["title"] = content_item.name
         return context_data
 
 

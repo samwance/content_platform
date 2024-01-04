@@ -4,32 +4,68 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Album',
+            name="Album",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField()),
-                ('description', models.CharField()),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='content_previews/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField()),
+                ("description", models.CharField()),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="content_previews/"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Content',
+            name="Content",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField()),
-                ('description', models.CharField()),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='content_previews/')),
-                ('post_time', models.DateTimeField(auto_now_add=True)),
-                ('is_free', models.BooleanField()),
-                ('category', models.CharField(choices=[('Art', 'Art'), ('Poems', 'Poems'), ('Education', 'Education'), ('Entertainment', 'Entertainment'), ('Other', 'Other')], default='Other')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField()),
+                ("description", models.CharField()),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="content_previews/"
+                    ),
+                ),
+                ("post_time", models.DateTimeField(auto_now_add=True)),
+                ("is_free", models.BooleanField()),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("Art", "Art"),
+                            ("Poems", "Poems"),
+                            ("Education", "Education"),
+                            ("Entertainment", "Entertainment"),
+                            ("Other", "Other"),
+                        ],
+                        default="Other",
+                    ),
+                ),
             ],
         ),
     ]

@@ -8,9 +8,7 @@ from users.models import User
 class TestSubscriptionViews(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create(
-            phone=12345678, name="user"
-        )
+        self.user = User.objects.create(phone=12345678, name="user")
         self.client.force_login(self.user)
         self.create_url = reverse("subscription:subscribe")
         self.payment = Subscription.objects.create(

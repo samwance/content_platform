@@ -6,5 +6,5 @@ from subscription.views import SubscriptionView
 app_name = SubscriptionConfig.name
 
 urlpatterns = [
-    path('', SubscriptionView.as_view(), name='subscribe'),
+    path("", SubscriptionView.as_view(), name="subscribe"),
 ]

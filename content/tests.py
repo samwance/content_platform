@@ -16,7 +16,6 @@ class TestContentViews(TestCase):
     def setUp(self):
         self.client = Client()
 
-
         self.user = User.objects.create(
             email="user@user.com",
             phone="12345678",
@@ -38,8 +37,12 @@ class TestContentViews(TestCase):
         self.client.force_login(self.user)
         self.list_url = reverse("content:index")
         self.paid_list_url = reverse("content:paid_content")
-        self.detail_url = reverse('content:content_detail', kwargs={'pk': self.paid_content.pk})
-        self.delete_url = reverse('content:content_delete', kwargs={'pk': self.paid_content.pk})
+        self.detail_url = reverse(
+            "content:content_detail", kwargs={"pk": self.paid_content.pk}
+        )
+        self.delete_url = reverse(
+            "content:content_delete", kwargs={"pk": self.paid_content.pk}
+        )
         self.create_url = reverse("content:content_create")
 
     def test_content_list(self):

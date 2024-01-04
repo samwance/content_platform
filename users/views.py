@@ -27,7 +27,6 @@ class UserUpdateView(UpdateView):
     model = User
     form_class = UserForm
 
-
     # Перенаправление на обновленную страницу профиля
     def get_success_url(self):
         return reverse_lazy("content:index", kwargs={"pk": self.object.pk})
