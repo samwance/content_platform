@@ -1,48 +1,28 @@
 {% extends 'content/base.html' %}
 {% block content %}
 {% load l10n %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed Page</title>
-    <style>
-        /* Add your CSS styles here */
-        .feed-item {
-          border: 1px solid #e1e1e1;
-          border-radius: 5px;
-          margin: 10px;
-          padding: 10px;
-        }
-        .user-info {
-          font-weight: bold;
-        }
-        .post-image {
-          max-width: 100%;
-          height: auto;
-        }
-        .post-actions {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 10px;
-        }
-    </style>
-</head>
 <body>
 <div class="container">
-    <div class="row">
-    </div>
-    <div class="row">
-        <div class="feed-item">
-            <div class="user-info">
+    <div class="feed-item">
+        {% if object.user.photo %}
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28" height="28">
+            @{{object.user}}
+        </div>
+        {% else %}
+        <div class="user-info">
+            <div class="username-box">
                 @{{object.user}}
             </div>
-            {% if object.preview %}
-            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 57%;">
-            {% endif %}
-            <div class="post-content">
-                <p>{{ object.description }}</p>
-            </div>
         </div>
+        {% endif %}
+        {% if object.preview %}
+        <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 57%;">
+        {% endif %}
+        <div class="post-content">
+            <p>{{ object.description }}</p>
+        </div>
+        <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}/update">Изменить</a>
     </div>
 </div>
 </body>

@@ -1,6 +1,7 @@
 {% extends 'content/base.html' %}
 {% load static %}
 {% block content %}
+{% load cropping %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,7 @@
           font-weight: bold;
         }
         .post-image {
-          max-width: 100%;
+          max-width: 5%;
           height: auto;
         }
         .post-actions {
@@ -35,11 +36,14 @@
         <div class="feed-item">
             <h1>Profile</h1>
 
+                {% if user.photo %}
+                <div class="media">
+                    <img class="rounded-circle account-img" src="{{ user.photo.url }}" width="100" height="100">
+                <div class="media-body">
+                {% endif %}
+
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {% if user.photo %}
-                <p><img src="{{ user.photo.url }}">
-                    {% endif %}
 
                 <div class="form-error">{{ form.non_field_errors }}</div>
                 {% for f in form %}
