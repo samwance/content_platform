@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -69,10 +70,22 @@ class ContentDetail(DetailView):
         return context_data
 
 
-class ContentUpdate(UpdateView):
+class ContentUpdate(LoginRequiredMixin, UpdateView):
     model = Content
     form_class = ContentForm
-    success_url = reverse_lazy("content:index")
+    template_name = 'content/content_update.html'
+    success_url = reverse_lazy("content:content_detail")
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get("pk"))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        content_item = Content.objects.get(pk=self.kwargs.get("pk"))
+        context_data["title"] = content_item.name
+        return context_data
 
 
 class ContentDelete(DeleteView):

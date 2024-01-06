@@ -1,32 +1,6 @@
 {% extends 'content/base.html' %}
 {% block content %}
 {% load l10n %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed Page</title>
-    <style>
-        /* Add your CSS styles here */
-        .feed-item {
-          border: 1px solid #e1e1e1;
-          border-radius: 5px;
-          margin: 10px;
-          padding: 10px;
-        }
-        .user-info {
-          font-weight: bold;
-        }
-        .post-image {
-          max-width: 100%;
-          height: auto;
-        }
-        .post-actions {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 10px;
-        }
-    </style>
-</head>
 <body>
 <div class="container">
     <div class="row">
@@ -48,7 +22,7 @@
         </div>
         {% endfor %}
         {% if not object_list %}
-        <p>Оформите подписку, чтобы увидеть платный контент</p>
+        <p>Оформите <a href="{% url 'subscription:subscribe' %}">подписку</a>, чтобы увидеть платный контент</p>
         {% endif %}
     </div>
 </div>

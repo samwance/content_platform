@@ -9,8 +9,23 @@ class StyleMixin:
             field.widget.attrs["class"] = "form-control"
 
 
-class ContentForm(StyleMixin, forms.ModelForm):
+class ContentForm(forms.ModelForm):
+    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    description = forms.CharField(label='Description', widget=forms.Textarea(attrs={'class': 'form-input'}))
+    preview = forms.ImageField(label='Preview', widget=forms.FileInput(attrs={'class': 'form-input'}))
+    is_free = forms.ChoiceField(label='To make public?', choices=((True, "Yes"), (False, "No")))
+
     class Meta:
         model = Content
         fields = ("name", "description", "preview", "is_free")
-        widgets = {"is_free": forms.Select(choices=((True, "Yes"), (False, "No")))}
+        labels = {
+            'name': 'Name',
+            'preview': 'Preview',
+            'description': 'Description',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'preview': forms.FileInput(attrs={'class': 'form-input'}),
+            'description': forms.Textarea(attrs={'class': 'form-input'}),
+            "is_free": forms.Select(choices=((True, "Yes"), (False, "No")))
+        }

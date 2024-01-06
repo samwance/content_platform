@@ -23,7 +23,7 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("content.urls", namespace="content")),
-    path("users/", include("users.urls", namespace="users")),
+    path("", include("users.urls", namespace="users")),
     path("subscribe/", include("subscription.urls", namespace="subscribe")),
 ]
 if settings.DEBUG:
