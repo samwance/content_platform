@@ -165,19 +165,18 @@
 
 <main class="form-login w-50 m-auto">
     {% load crispy_forms_tags %}
-    <h1>Авторизация</h1>
+    <form method="post" enctype="multipart/form-data">
+        <section class="section">
 
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}"/>
-        <div class="form-error">{{ form.non_field_errors }}</div>
-        {% for f in form %}
-        <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-        <div class="form-error">{{ f.errors }}</div>
-        {% endfor %}
-        <p>
-            <button type="submit">Войти</button>
-        </p>
+        </section>
+        <button class="btn btn-primary w-50 py-2" type="submit">Log out</button>
+        <section class="section">
+            <h1 class="title"></h1>
+            <h2 class="subtitle">
+
+            </h2>
+        </section>
+
     </form>
 
 </main>

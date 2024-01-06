@@ -1,32 +1,53 @@
-from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 
-from users.forms import UserForm, UserRegisterForm
+from users.forms import ProfileUserForm, LoginUserForm, RegisterUserForm
 from users.models import User
 
 
 class Login(LoginView):
-    template_name = "users/login.html"
-    success_url = reverse_lazy("content:index")
+    form_class = LoginUserForm
+    template_name = 'users/login.html'
+    extra_context = {'title': 'Авторизация'}
+
+    def get_success_url(self):
+        return reverse_lazy("users:profile")
 
 
-class Logout(LogoutView):
-    pass
+def logout_user(request):
+    logout(request)
+    return redirect('users:login')
 
 
 class Register(CreateView):
-    model = User
-    form_class = UserRegisterForm
+    form_class = RegisterUserForm
     template_name = "users/register.html"
+    extra_context = {'title': "Регистрация"}
     success_url = reverse_lazy("content:index")
 
 
-class UserUpdateView(UpdateView):
-    model = User
-    form_class = UserForm
+class UserRetrieve(DetailView):
+    Model = User
+    template_name = "users/profiles.html"
 
-    # Перенаправление на обновленную страницу профиля
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class ProfileUser(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = ProfileUserForm
+    template_name = 'users/profile.html'
+    extra_context = {
+        'title': "User's profile",
+    }
+
     def get_success_url(self):
-        return reverse_lazy("content:index", kwargs={"pk": self.object.pk})
+        return reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
