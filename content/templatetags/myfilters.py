@@ -4,5 +4,8 @@ register = template.Library()
 
 
 @register.filter
-def filter_by_date(queryset, post_time):
-    return queryset.filter(date_field=post_time)
+def custom_timesince(value):
+    from django.utils.timesince import timesince
+    if timesince(value).find('минут') != -1:
+        return value.strftime("%S секунд назад")
+    return timesince(value)

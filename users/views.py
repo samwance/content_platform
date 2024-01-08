@@ -1,10 +1,11 @@
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
 
+from content.models import Content
 from users.forms import ProfileUserForm, LoginUserForm, RegisterUserForm
 from users.models import User
 
@@ -29,13 +30,29 @@ class Register(CreateView):
     extra_context = {'title': "Регистрация"}
     success_url = reverse_lazy("content:index")
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = authenticate(phone=form.cleaned_data['phone'], password=form.cleaned_data['password1'])
+        if user is not None:
+            login(self.request, user)
+        return response
+
 
 class UserRetrieve(DetailView):
-    Model = User
-    template_name = "users/profiles.html"
+    model = User
+    template_name = "users/user_retrieve.html"
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get("pk"))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.object
+        context["title"] = user.name
+        context["posts"] = Content.objects.filter(user=user)
+        return context
 
 
 class ProfileUser(LoginRequiredMixin, UpdateView):

@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path("register/", Register.as_view(), name="register"),
     path("profile/", ProfileUser.as_view(), name="profile"),
+    path("profile/<pk>/", UserRetrieve.as_view(), name='user_retrieve')
 ]

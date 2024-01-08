@@ -1,6 +1,7 @@
 {% extends 'content/base.html' %}
 {% block content %}
 {% load cropping %}
+{% load myfilters %}
 <body>
 <div class="container">
     <div class="row">
@@ -16,16 +17,19 @@
             {% endif %}
             <div class="user-info" style="display: inline-block;">
                 <div class="username-box">
-                    @{{object.user}}
+                    <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
                 </div>
             </div>
             {% if object.preview %}
             <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
             {% endif %}
             <div class="post-content">
-                <p>{{ object.description|linebreaksbr }}</p>
+                <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
-            <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Перейти к посту</a>
+            <div style="display: flex; justify-content: space-between;">
+                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Перейти к посту</a>
+                <p>{{ object.post_time|custom_timesince }}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
