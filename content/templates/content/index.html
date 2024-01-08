@@ -1,32 +1,29 @@
 {% extends 'content/base.html' %}
 {% block content %}
-{% load l10n %}
 {% load cropping %}
 <body>
 <div class="container">
     <div class="row">
-        {% for object in object_list %}
+        {% for object in object_list reversed %}
     </div>
 
     <div class="row">
         <div class="feed-item">
             {% if object.user.photo %}
-            <div class="media">
+            <div class="media" style="display: inline-block;">
                 <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28" height="28">
-                @{{object.user}}
             </div>
-            {% else %}
-            <div class="user-info">
+            {% endif %}
+            <div class="user-info" style="display: inline-block;">
                 <div class="username-box">
                     @{{object.user}}
                 </div>
             </div>
-            {% endif %}
             {% if object.preview %}
-            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%;">
+            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
             {% endif %}
             <div class="post-content">
-                <p>{{ object.description }}</p>
+                <p>{{ object.description|linebreaksbr }}</p>
             </div>
             <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Перейти к посту</a>
         </div>

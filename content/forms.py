@@ -12,7 +12,7 @@ class StyleMixin:
 class ContentForm(forms.ModelForm):
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'class': 'form-input'}))
     description = forms.CharField(label='Description', widget=forms.Textarea(attrs={'class': 'form-input'}))
-    preview = forms.ImageField(label='Preview', widget=forms.FileInput(attrs={'class': 'form-input'}))
+    preview = forms.ImageField(label='Preview', widget=forms.FileInput(attrs={'class': 'form-input'}), required=False)
     is_free = forms.ChoiceField(label='To make public?', choices=((True, "Yes"), (False, "No")))
 
     class Meta:

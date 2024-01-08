@@ -17,7 +17,7 @@
                     <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 57%;">
                     {% endif %}
 
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" id="update-form">
 
                         {% csrf_token %}
 
@@ -35,5 +35,22 @@
             </div>
         </div>
 </body>
+
+<script>
+  document.getElementById('update-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this)
+    })
+      .then(response => response.text())
+      .then(result => {
+        // Handle the result, e.g., show a success message or redirect to another page
+      })
+      .catch(error => {
+        // Handle errors, e.g., show an error message
+      });
+  });
+</script>
 
 {% endblock %}

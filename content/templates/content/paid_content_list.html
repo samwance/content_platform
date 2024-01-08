@@ -22,7 +22,7 @@
         </div>
         {% endfor %}
         {% if not object_list %}
-        <p>Оформите <a href="{% url 'subscription:subscribe' %}">подписку</a>, чтобы увидеть платный контент</p>
+        <p><a href="{% url 'subscription:subscribe' %}">Subscribe</a> to see private content</p>
         {% endif %}
     </div>
 </div>

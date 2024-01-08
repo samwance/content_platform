@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.urls import reverse_lazy
+from django.utils.html import linebreaks
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 
@@ -85,9 +87,28 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         context_data = super().get_context_data(**kwargs)
         content_item = Content.objects.get(pk=self.kwargs.get("pk"))
         context_data["title"] = content_item.name
+        context_data["description_formatted"] = linebreaks(content_item.description)
         return context_data
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        content_item = Content.objects.get(pk=self.kwargs.get("pk"))
+        context_data["title"] = content_item.name
+        return context_data
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise Http404("You do not have permission to edit this content")
+        return obj
 
 
 class ContentDelete(DeleteView):
     model = Content
     success_url = reverse_lazy("content:index")
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise Http404("You do not have permission to delete this content")
+        return obj
