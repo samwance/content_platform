@@ -15,9 +15,13 @@
                 <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28" height="28">
             </div>
             {% endif %}
-            <div class="user-info" style="display: inline-block;">
-                <div class="username-box">
+            <div class="user-info" style="display: flex;">
+                <div style="display: flex; align-items: center;">
                     <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
+                    <p style="margin: 0 8px;">from</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <a href="/col/{{ object.collection.pk }}">{{ object.collection }}</a>
                 </div>
             </div>
             {% if object.preview %}
@@ -27,7 +31,7 @@
                 <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Перейти к посту</a>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
                 <p>{{ object.post_time|custom_timesince }}</p>
             </div>
         </div>

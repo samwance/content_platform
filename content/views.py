@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from subscription.models import Subscription
-from .forms import ContentForm
-from .models import Content
+from .forms import ContentForm, CollectionForm
+from .models import Content, Collection
 
 
 class IndexView(TemplateView):
@@ -20,7 +20,7 @@ class IndexView(TemplateView):
         return context_data
 
 
-class ContentCreate(CreateView):
+class ContentCreate(LoginRequiredMixin, CreateView):
     model = Content
     form_class = ContentForm
     success_url = reverse_lazy("content:index")
@@ -87,13 +87,6 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         context_data = super().get_context_data(**kwargs)
         content_item = Content.objects.get(pk=self.kwargs.get("pk"))
         context_data["title"] = content_item.name
-        context_data["description_formatted"] = linebreaks(content_item.description)
-        return context_data
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        content_item = Content.objects.get(pk=self.kwargs.get("pk"))
-        context_data["title"] = content_item.name
         return context_data
 
     def get_object(self, queryset=None):
@@ -112,3 +105,67 @@ class ContentDelete(DeleteView):
         if obj.user != self.request.user:
             raise Http404("You do not have permission to delete this content")
         return obj
+
+
+class CollectionCreate(LoginRequiredMixin, CreateView):
+    model = Collection
+    form_class = CollectionForm
+    success_url = reverse_lazy("content:index")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
+class CollectionDelete(DeleteView):
+    model = Collection
+    success_url = reverse_lazy("content:index")
+    template_name = 'content/collection_delete.html'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise Http404("You do not have permission to delete this collection")
+        return obj
+
+
+class CollectionUpdate(LoginRequiredMixin, UpdateView):
+    model = Collection
+    form_class = CollectionForm
+    success_url = reverse_lazy("content:collection_detail")
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get("pk"))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        content_item = Collection.objects.get(pk=self.kwargs.get("pk"))
+        context_data["title"] = content_item.name
+        return context_data
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise Http404("You do not have permission to edit this collection")
+        return obj
+
+
+class CollectionDetail(DetailView):
+    model = Collection
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get("pk"))
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        collection_item = Collection.objects.get(pk=self.kwargs.get("pk"))
+        collection = self.object
+        context_data["title"] = collection_item.name
+        context_data["posts"] = Content.objects.filter(collection=collection)
+        return context_data
