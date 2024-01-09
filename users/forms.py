@@ -7,7 +7,7 @@ from users.models import User
 
 class LoginUserForm(StyleMixin, AuthenticationForm):
     password = forms.CharField(label="Password",
-                    widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -15,9 +15,9 @@ class LoginUserForm(StyleMixin, AuthenticationForm):
 
 
 class RegisterUserForm(StyleMixin, UserCreationForm):
-    phone = forms.CharField(label="Phone", widget=forms.TextInput(attrs={'class': 'form-input'}))
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    password2 = forms.CharField(label="Password repeat", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    phone = forms.CharField(label="Phone", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label="Password repeat", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -27,8 +27,8 @@ class RegisterUserForm(StyleMixin, UserCreationForm):
             'name': "Name",
         }
         widgets = {
-            'phone': forms.TextInput(attrs={'class': 'form-input'}),
-            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def clean_phone(self):
@@ -36,6 +36,7 @@ class RegisterUserForm(StyleMixin, UserCreationForm):
         if User.objects.filter(phone=phone).exists():
             raise forms.ValidationError("This phone already exists")
         return phone
+
 
 
 class ProfileUserForm(forms.ModelForm):
