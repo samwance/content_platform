@@ -1,34 +1,39 @@
 {% extends 'content/base.html' %}
 {% block content %}
-{% load l10n %}
 {% load cropping %}
+{% load myfilters %}
 <body>
 <div class="container">
     <div class="row">
-        {% for object in object_list %}
+        {% for object in object_list reversed %}
     </div>
 
     <div class="row">
         <div class="feed-item">
             {% if object.user.photo %}
-            <div class="media">
+            <div class="media" style="display: inline-block;">
                 <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28" height="28">
-                @{{object.user}}
             </div>
-            {% else %}
-            <div class="user-info">
-                <div class="username-box">
-                    @{{object.user}}
+            {% endif %}
+            <div class="user-info" style="display: flex;">
+                <div style="display: flex; align-items: center;">
+                    <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
+                    <p style="margin: 0 8px;">from</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <a href="/col/{{ object.collection.pk }}">{{ object.collection }}</a>
                 </div>
             </div>
-            {% endif %}
             {% if object.preview %}
-            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%;">
+            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
             {% endif %}
             <div class="post-content">
-                <p>{{ object.description }}</p>
+                <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
-            <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Перейти к посту</a>
+            <div style="display: flex; justify-content: space-between;">
+                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
+                <p>{{ object.post_time|custom_timesince }}</p>
+            </div>
         </div>
         {% endfor %}
     </div>

@@ -1,11 +1,11 @@
 {% extends 'content/base.html' %}
 
 {% block content %}
-<h2>Создать пост</h2>
+<h2>Create post</h2>
 {% load crispy_forms_tags %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Сохранить</button>
+    <button type="submit">Save</button>
 </form>
 {% endblock %}

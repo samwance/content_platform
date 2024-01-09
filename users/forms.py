@@ -33,7 +33,7 @@ class RegisterUserForm(StyleMixin, UserCreationForm):
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-        if phone().objects.filter(phone=phone).exists():
+        if User.objects.filter(phone=phone).exists():
             raise forms.ValidationError("This phone already exists")
         return phone
 

@@ -1,0 +1,55 @@
+{% extends 'content/base.html' %}
+{% block content %}
+{% load myfilters %}
+<body>
+<div style="text-align: center;">
+    <h1 style="display: inline-block;">{{ object }}</h1>
+    {% if object.user == request.user %}
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/col/{{ object.pk }}/edit">Edit</a></li>
+            <li><a class="dropdown-item" href="/col/{{ object.pk }}/delete">Delete</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="feed-item">
+    <div class="container">
+        <div class="row">
+            {% for object in posts reversed %}
+        </div>
+
+        <div class="row">
+            <div class="feed-item">
+                {% if object.user.photo %}
+                <div class="media" style="display: inline-block;">
+                    <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28"
+                         height="28">
+                </div>
+                {% endif %}
+                <div class="user-info" style="display: inline-block;">
+                    <div class="username-box">
+                        <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
+                    </div>
+                </div>
+                {% if object.preview %}
+                <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
+                {% endif %}
+                <div class="post-content">
+                    <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
+                    <p>{{ object.post_time|custom_timesince }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}
