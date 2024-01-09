@@ -13,7 +13,7 @@ from users.models import User
 class Login(LoginView):
     form_class = LoginUserForm
     template_name = 'users/login.html'
-    extra_context = {'title': 'Авторизация'}
+    extra_context = {'title': 'Authorization'}
 
     def get_success_url(self):
         return reverse_lazy("users:profile")
@@ -27,7 +27,7 @@ def logout_user(request):
 class Register(CreateView):
     form_class = RegisterUserForm
     template_name = "users/register.html"
-    extra_context = {'title': "Регистрация"}
+    extra_context = {'title': "Registration"}
     success_url = reverse_lazy("content:index")
 
     def form_valid(self, form):
@@ -41,6 +41,7 @@ class Register(CreateView):
 class UserRetrieve(DetailView):
     model = User
     template_name = "users/user_retrieve.html"
+    extra_context = {"title": "User's profile"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -60,7 +61,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
     form_class = ProfileUserForm
     template_name = 'users/profile.html'
     extra_context = {
-        'title': "User's profile",
+        'title': "Edit profile",
     }
 
     def get_success_url(self):

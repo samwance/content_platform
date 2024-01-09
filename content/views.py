@@ -12,7 +12,7 @@ from .models import Content, Collection
 
 class IndexView(TemplateView):
     template_name = "content/index.html"
-    extra_context = {"title": "Главная страница"}
+    extra_context = {"title": "Main page"}
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -24,12 +24,17 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     model = Content
     form_class = ContentForm
     success_url = reverse_lazy("content:index")
+    extra_context = {"title": "Create post"}
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
-        # При создании поста - объект автоматически привязывается к пользователю
-
         self.object = form.save(commit=False)
         self.object.user = self.request.user
+        self.object.collection = form.cleaned_data['collection']
         self.object.save()
         return super().form_valid(form)
 
@@ -38,6 +43,7 @@ class PaidContentList(ListView):
     model = Content
     template_name = "content/paid_content_list.html"
     fields = "__all__"
+    extra_context = {"title": "Paid content"}
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -59,6 +65,7 @@ class PaidContentList(ListView):
 class ContentDetail(DetailView):
     model = Content
     template_name = "content/content_detail.html"
+    extra_context = {"title": "Post detail"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -77,6 +84,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     form_class = ContentForm
     template_name = 'content/content_update.html'
     success_url = reverse_lazy("content:content_detail")
+    extra_context = {"title": "Post edit"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -99,6 +107,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 class ContentDelete(DeleteView):
     model = Content
     success_url = reverse_lazy("content:index")
+    extra_context = {"title": "Delete post"}
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -111,6 +120,7 @@ class CollectionCreate(LoginRequiredMixin, CreateView):
     model = Collection
     form_class = CollectionForm
     success_url = reverse_lazy("content:index")
+    extra_context = {"title": "New collection"}
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -123,6 +133,7 @@ class CollectionDelete(DeleteView):
     model = Collection
     success_url = reverse_lazy("content:index")
     template_name = 'content/collection_delete.html'
+    extra_context = {"title": "Delete collection"}
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -135,6 +146,7 @@ class CollectionUpdate(LoginRequiredMixin, UpdateView):
     model = Collection
     form_class = CollectionForm
     success_url = reverse_lazy("content:collection_detail")
+    extra_context = {"title": "Edit collection"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -156,6 +168,7 @@ class CollectionUpdate(LoginRequiredMixin, UpdateView):
 
 class CollectionDetail(DetailView):
     model = Collection
+    extra_context = {"title": "Collection detail"}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -169,3 +182,5 @@ class CollectionDetail(DetailView):
         context_data["title"] = collection_item.name
         context_data["posts"] = Content.objects.filter(collection=collection)
         return context_data
+
+

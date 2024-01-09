@@ -6,8 +6,6 @@ from users.models import User
 
 
 class LoginUserForm(StyleMixin, AuthenticationForm):
-    password = forms.CharField(label="Password",
-                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -15,9 +13,6 @@ class LoginUserForm(StyleMixin, AuthenticationForm):
 
 
 class RegisterUserForm(StyleMixin, UserCreationForm):
-    phone = forms.CharField(label="Phone", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label="Password repeat", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -38,11 +33,7 @@ class RegisterUserForm(StyleMixin, UserCreationForm):
         return phone
 
 
-
-class ProfileUserForm(forms.ModelForm):
-    name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    phone = forms.CharField(label='Phone', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    photo = forms.ImageField(label='Photo', widget=forms.FileInput(attrs={'class': 'form-input'}))
+class ProfileUserForm(StyleMixin, forms.ModelForm):
 
     class Meta:
         model = User
@@ -53,8 +44,7 @@ class ProfileUserForm(forms.ModelForm):
             'photo': 'Photo',
         }
         widgets = {
-            'phone': forms.TextInput(attrs={'class': 'form-input'}),
-            'name': forms.TextInput(attrs={'class': 'form-input'}),
-            'photo': forms.FileInput(attrs={'class': 'form-input'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(attrs={'class': 'form-select-image'}),
         }
-
