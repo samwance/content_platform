@@ -5,25 +5,30 @@
 <main class="form-signin w-100 m-auto">
     <form method="post">
         {% csrf_token %}
-        <h1 class="h3 mb-3 fw-normal">Register</h1>
+        <h1 class="h3 mb-3 fw-normal">Registration</h1>
+        <div class="form-error">{{ form.non_field_errors }}</div>
         <div class="form-floating">
             {{ form.name }}
             <label for="floatingInput">Name</label>
+            <div class="form-error">{{ form.errors.name }}</div>
         </div>
         <div class="form-floating">
             {{ form.phone }}
             <label for="floatingInput">Phone Number</label>
+            <div class="form-error">{{ form.errors.phone }}</div>
         </div>
         <div class="form-floating">
             {{ form.password1 }}
             <label for="floatingPassword">Password</label>
+            <div class="form-error">{{ form.errors.password1 }}</div>
         </div>
         <div class="form-floating">
             {{ form.password2 }}
-            <label for="floatingPassword">Password repeat</label>
+            <label for="floatingPassword">Confirm Password</label>
+            <div class="form-error">{{ form.errors.password2 }}</div>
         </div>
         <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
-        <p class="text-body-secondary">If you have an account you can <a href="{% url 'users:login' %}">log in</a></p>
+        <p class="text-body-secondary">If you already have an account <a href="{% url 'users:login' %}">log in</a></p>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2023–2024</p>
     </form>
 </main>

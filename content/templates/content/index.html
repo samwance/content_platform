@@ -30,7 +30,7 @@
                 <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
+                <a class="d-inline-flex focus-ring focus-ring-dark py-1 px-2 text-decoration-none border rounded-2" href="/post/{{ object.pk }}">Open the post</a>
                 <p>{{ object.post_time|custom_timesince }} ago</p>
             </div>
         </div>

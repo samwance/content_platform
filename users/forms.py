@@ -16,6 +16,7 @@ class LoginUserForm(StyleMixin, AuthenticationForm):
         fields = ["password"]
 
 
+
 class RegisterUserForm(StyleMixin, UserCreationForm):
     class Meta:
         model = User
