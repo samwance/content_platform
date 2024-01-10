@@ -30,7 +30,9 @@ python manage.py createsuperuser
 ```
 
 Start the Django development server:
+```
 python manage.py runserver
+```
 Open your web browser and navigate to http://localhost:8000/admin/ to access the Django admin site.
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
