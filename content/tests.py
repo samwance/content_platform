@@ -17,10 +17,14 @@ class TestContentViews(TestCase):
         self.client = Client()
 
         self.user = User.objects.create(
-            email="user@user.com",
             phone="12345678",
             name="user",
             password="12345",
+        )
+        self.collection = Collection.objects.create(
+            user=self.user,
+            name="test",
+            description="test",
         )
         self.paid_content = Content.objects.create(
             user=self.user,
@@ -28,6 +32,7 @@ class TestContentViews(TestCase):
             description="test",
             is_free=False,
             post_time=datetime.date.today(),
+            collection=self.collection,
         )
 
         self.sub = Subscription.objects.create(
@@ -88,12 +93,8 @@ class TestCollectionViews(TestCase):
             name="test",
             description="test",
         )
-
-        self.sub = Subscription.objects.create(
-            user=self.user,
-            is_active=True,
-        )
         self.client.force_login(self.user)
+        self.list_url = reverse("content:collection_list")
         self.detail_url = reverse(
             "content:collection_detail", kwargs={"pk": self.collection.pk}
         )
@@ -102,30 +103,24 @@ class TestCollectionViews(TestCase):
         )
         self.create_url = reverse("content:collection_create")
 
-    def test_content_list(self):
+    def test_collection_list(self):
         response = self.client.get(self.list_url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "content/index.html")
+        self.assertTemplateUsed(response, "content/collection_list.html")
 
-    def test_content_detail(self):
+    def test_collection_detail(self):
         response = self.client.get(self.detail_url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "content/content_detail.html")
+        self.assertTemplateUsed(response, "content/collection_detail.html")
 
-    def test_content_delete(self):
+    def test_collection_delete(self):
         response = self.client.post(self.delete_url)
         self.assertEqual(response.status_code, 302)
 
-    def test_content_create(self):
+    def test_collection_create(self):
         response = self.client.post(self.create_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Collection.objects.all().count(), 1)
         self.assertEqual(self.collection.name, "test")
-
-    def test_paid_content_list(self):
-        response = self.client.get(self.collection)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "content/paid_content_list.html")
