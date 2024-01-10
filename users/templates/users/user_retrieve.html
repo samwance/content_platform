@@ -3,10 +3,14 @@
 {% load myfilters %}
 <body>
 <div style="text-align: center;">
-    <h1 style="display: inline-block;">{{ user.name }}'s profile</h1>
+    <div>
+    <h1 style="display: inline-block;">{{ user.name }}'s </h1>
+    <h2 style="display: inline-block;">profile</h2>
+
     {% if user == request.user %}
-    <a class="btn btn-link" href="/profile/" style="display: inline-block;">Edit my profile</a>
+    <a class="btn btn-link display: inline-block;" href="/profile/" style="display: inline-block;">Edit my profile</a>
     {% endif %}
+    </div>
 </div>
 <div class="row">
     <div class="feed-item">

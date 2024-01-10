@@ -43,6 +43,7 @@ class ContentForm(StyleMixin, forms.ModelForm):
         self.fields['collection'].queryset = Collection.objects.filter(user=user)
 
 
+
 class CollectionForm(StyleMixin, forms.ModelForm):
     name = forms.CharField(label='Name', widget=forms.TextInput(attrs={'class': 'form-input'}))
     description = forms.CharField(label='Description', widget=forms.Textarea(attrs={'class': 'form-input'}))

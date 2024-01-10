@@ -86,16 +86,22 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("content:content_detail")
     extra_context = {"title": "Post edit"}
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.collection = form.cleaned_data['collection']
+        self.object.save()
+        return super().form_valid(form)
+
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(pk=self.kwargs.get("pk"))
         return queryset
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        content_item = Content.objects.get(pk=self.kwargs.get("pk"))
-        context_data["title"] = content_item.name
-        return context_data
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -106,6 +112,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
 class ContentDelete(DeleteView):
     model = Content
+    template_name = 'content/content_delete.html'
     success_url = reverse_lazy("content:index")
     extra_context = {"title": "Delete post"}
 
@@ -114,6 +121,23 @@ class ContentDelete(DeleteView):
         if obj.user != self.request.user:
             raise Http404("You do not have permission to delete this content")
         return obj
+
+
+class CollectionList(ListView):
+    model = Collection
+    template_name = "content/collection_list.html"
+    fields = "__all__"
+    extra_context = {"title": "Collections"}
+
+    def get_queryset(self):
+        return Collection.objects.all()
+
+    def get_context_data(self, **kwargs):
+        """Формируем данные для отображения в шаблоне страницы платного контента"""
+
+        context_data = super().get_context_data(**kwargs)
+
+        return context_data
 
 
 class CollectionCreate(LoginRequiredMixin, CreateView):

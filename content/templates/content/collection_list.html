@@ -17,10 +17,6 @@
                 {% endif %}
                 <div class="user-info" style="display: flex; align-items: center;">
                     <a href="/profile/{{ object.user.pk }}" style="text-decoration: none; color: inherit;">@{{ object.user }}</a>
-                    {% if object.collection %}
-                    <p style="margin: 0 8px;">from</p>
-                    <a href="/col/{{ object.collection.pk }}">{{ object.collection }}</a>
-                    {% endif %}
                 </div>
             </div>
             {% if object.preview %}
@@ -30,13 +26,12 @@
                 <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
-                <p>{{ object.post_time|custom_timesince }} ago</p>
+                <a class="btn btn-lg btn-block btn-outline-primary" href="/col/{{ object.pk }}">Open the collection</a>
             </div>
         </div>
         {% endfor %}
         {% if not object_list %}
-        <p><a href="{% url 'subscription:subscribe' %}">Subscribe</a> to see private content</p>
+        <p>There're no collections here : )</p>
         {% endif %}
     </div>
 </div>
