@@ -23,8 +23,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'timezone_field',
-    'image_cropping',
+    "timezone_field",
+    "image_cropping",
     "crispy_forms",
     "users",
     "content",
@@ -101,16 +101,14 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',
-)
+STATICFILES_DIRS = (BASE_DIR / "static",)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
-LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
+LOGIN_URL = "users:login"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

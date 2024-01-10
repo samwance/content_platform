@@ -7,7 +7,12 @@ from content.views import (
     PaidContentList,
     ContentDetail,
     ContentUpdate,
-    ContentDelete, CollectionCreate, CollectionDetail, CollectionUpdate, CollectionDelete, CollectionList,
+    ContentDelete,
+    CollectionCreate,
+    CollectionDetail,
+    CollectionUpdate,
+    CollectionDelete,
+    CollectionList,
 )
 
 app_name = ContentConfig.name

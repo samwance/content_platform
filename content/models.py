@@ -6,7 +6,9 @@ NULL = {"null": True, "blank": True}
 
 
 class Collection(models.Model):
-    user = models.ForeignKey(User, related_name='collection_user', on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, related_name="collection_user", on_delete=models.CASCADE
+    )
     name = models.CharField()
     description = models.TextField(**NULL)
     preview = models.ImageField(upload_to="collection_previews/", **NULL)
@@ -24,9 +26,7 @@ class Content(models.Model):
     preview = models.ImageField(upload_to="content_previews/", **NULL)
     post_time = models.DateTimeField(auto_now_add=True)
     is_free = models.BooleanField()
-    collection = models.ForeignKey(
-        Collection, on_delete=models.CASCADE, **NULL
-    )
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE, **NULL)
 
     CATEGORY_CHOICES = [
         ("Art", "Art"),
@@ -39,5 +39,3 @@ class Content(models.Model):
 
     def __str__(self):
         return self.name
-
-

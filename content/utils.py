@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.utils import timezone
 
+
 def get_time_ago(time):
     if time is None:
         return "Never"

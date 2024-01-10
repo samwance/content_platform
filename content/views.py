@@ -28,13 +28,13 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
-        self.object.collection = form.cleaned_data['collection']
+        self.object.collection = form.cleaned_data["collection"]
         self.object.save()
         return super().form_valid(form)
 
@@ -82,19 +82,19 @@ class ContentDetail(DetailView):
 class ContentUpdate(LoginRequiredMixin, UpdateView):
     model = Content
     form_class = ContentForm
-    template_name = 'content/content_update.html'
+    template_name = "content/content_update.html"
     success_url = reverse_lazy("content:content_detail")
     extra_context = {"title": "Post edit"}
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
-        self.object.collection = form.cleaned_data['collection']
+        self.object.collection = form.cleaned_data["collection"]
         self.object.save()
         return super().form_valid(form)
 
@@ -112,7 +112,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
 class ContentDelete(DeleteView):
     model = Content
-    template_name = 'content/content_delete.html'
+    template_name = "content/content_delete.html"
     success_url = reverse_lazy("content:index")
     extra_context = {"title": "Delete post"}
 
@@ -156,7 +156,7 @@ class CollectionCreate(LoginRequiredMixin, CreateView):
 class CollectionDelete(DeleteView):
     model = Collection
     success_url = reverse_lazy("content:index")
-    template_name = 'content/collection_delete.html'
+    template_name = "content/collection_delete.html"
     extra_context = {"title": "Delete collection"}
 
     def get_object(self, queryset=None):
@@ -206,5 +206,3 @@ class CollectionDetail(DetailView):
         context_data["title"] = collection_item.name
         context_data["posts"] = Content.objects.filter(collection=collection)
         return context_data
-
-

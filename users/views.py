@@ -12,8 +12,8 @@ from users.models import User
 
 class Login(LoginView):
     form_class = LoginUserForm
-    template_name = 'users/login.html'
-    extra_context = {'title': 'Authorization'}
+    template_name = "users/login.html"
+    extra_context = {"title": "Authorization"}
 
     def get_success_url(self):
         return reverse_lazy("users:profile")
@@ -21,18 +21,20 @@ class Login(LoginView):
 
 def logout_user(request):
     logout(request)
-    return redirect('users:login')
+    return redirect("users:login")
 
 
 class Register(CreateView):
     form_class = RegisterUserForm
     template_name = "users/register.html"
-    extra_context = {'title': "Registration"}
+    extra_context = {"title": "Registration"}
     success_url = reverse_lazy("content:index")
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        user = authenticate(phone=form.cleaned_data['phone'], password=form.cleaned_data['password1'])
+        user = authenticate(
+            phone=form.cleaned_data["phone"], password=form.cleaned_data["password1"]
+        )
         if user is not None:
             login(self.request, user)
         return response
@@ -59,13 +61,13 @@ class UserRetrieve(DetailView):
 class ProfileUser(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileUserForm
-    template_name = 'users/profile.html'
+    template_name = "users/profile.html"
     extra_context = {
-        'title': "Edit profile",
+        "title": "Edit profile",
     }
 
     def get_success_url(self):
-        return reverse_lazy('users:profile')
+        return reverse_lazy("users:profile")
 
     def get_object(self, queryset=None):
         return self.request.user
