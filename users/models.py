@@ -7,6 +7,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=35, unique=True)
     name = models.CharField(max_length=100, unique=True)
     photo = models.ImageField(upload_to="users/", null=True, blank=True)
+    is_subscribed = models.BooleanField(default=False)
 
     USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []

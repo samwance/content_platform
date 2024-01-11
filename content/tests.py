@@ -3,11 +3,8 @@ import datetime
 from django.test import TestCase, Client
 
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase, APIClient
 
 from content.models import Content, Collection
-from subscription.models import Subscription
 
 from users.models import User
 
@@ -20,6 +17,7 @@ class TestContentViews(TestCase):
             phone="12345678",
             name="user",
             password="12345",
+            is_subscribed=True
         )
         self.collection = Collection.objects.create(
             user=self.user,
@@ -33,11 +31,6 @@ class TestContentViews(TestCase):
             is_free=False,
             post_time=datetime.date.today(),
             collection=self.collection,
-        )
-
-        self.sub = Subscription.objects.create(
-            user=self.user,
-            is_active=True,
         )
         self.client.force_login(self.user)
         self.list_url = reverse("content:index")

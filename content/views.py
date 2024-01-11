@@ -4,8 +4,6 @@ from django.urls import reverse_lazy
 from django.utils.html import linebreaks
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
-
-from subscription.models import Subscription
 from .forms import ContentForm, CollectionForm
 from .models import Content, Collection
 
@@ -47,12 +45,12 @@ class PaidContentList(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if Subscription.objects.filter(user=self.request.user).exists():
+            if self.request.user.is_subscribed:
                 return Content.objects.all()
             else:
-                return None
+                return Content.objects.filter(user=self.request.user)
         else:
-            return None
+            return Content.objects.filter(is_free=True)
 
     def get_context_data(self, **kwargs):
         """Формируем данные для отображения в шаблоне страницы платного контента"""

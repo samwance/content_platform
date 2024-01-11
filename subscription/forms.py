@@ -24,7 +24,6 @@ class SubscriptionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Subscription
         fields = ["name", "email", "card_number", "exp_month", "exp_year", "cvc"]
         labels = {
             "name": "Name",

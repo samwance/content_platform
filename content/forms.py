@@ -19,7 +19,7 @@ class StyleMixin:
 
 class ContentForm(StyleMixin, forms.ModelForm):
     collection = forms.ModelChoiceField(
-        queryset=Collection.objects.none(), required=True
+        queryset=Collection.objects.none(), required=False
     )
 
     class Meta:
