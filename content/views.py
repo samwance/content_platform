@@ -1,11 +1,19 @@
+import stripe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.utils.html import linebreaks
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
+
+from config import settings
+from subscription.models import Payment
 from .forms import ContentForm, CollectionForm
 from .models import Content, Collection
+
+
+class IncMenu(TemplateView):
+    template_name = "content/inc_menu.html"
 
 
 class IndexView(TemplateView):
@@ -44,13 +52,10 @@ class PaidContentList(ListView):
     extra_context = {"title": "Paid content"}
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            if self.request.user.is_subscribed:
-                return Content.objects.all()
-            else:
-                return Content.objects.filter(user=self.request.user)
+        if self.request.user.is_subscribed:
+            return Content.objects.all()
         else:
-            return Content.objects.filter(is_free=True)
+            return Content.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         """Формируем данные для отображения в шаблоне страницы платного контента"""

@@ -1,8 +1,24 @@
 <nav class="ms-5">
-    <a class="p-2 btn btn-outline-primary" href="{% url 'content:index' %}">Free content</a>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'content:paid_content' %}">Paid content</a>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'content:collection_list' %}">Collections</a>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'content:content_create' %}">Create post</a>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'content:collection_create' %}">Create collection</a>
+    <div class="btn-group">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Content
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'content:index' %}">Free content</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:paid_content' %}">Paid content</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:content_create' %}">Create post</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Collection
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'content:collection_list' %}">Collections</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:collection_create' %}">Create collection</a></li>
+        </ul>
+    </div>
+    {% if not request.user.is_subscribed %}
     <a class="p-2 btn btn-outline-primary" href="{% url 'subscription:subscribe' %}">Subscribe</a>
+    {% endif %}
 </nav>

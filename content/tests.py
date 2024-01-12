@@ -60,10 +60,30 @@ class TestContentViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_content_create(self):
+        # Create an existing object
+        existing_content = Content.objects.create(
+            user=self.user,
+            name="test",
+            description="test",
+            is_free=False,
+            post_time=datetime.date.today(),
+            collection=self.collection,
+        )
+
+        # Log in the client
+        self.client.force_login(self.user)
+
+        # Send a POST request to create a new object
         response = self.client.post(self.create_url)
+
+        # Check that the response status code is 200
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Content.objects.all().count(), 1)
-        self.assertEqual(self.paid_content.name, "test")
+
+        # Check that the number of objects in the database is 2
+        self.assertEqual(Content.objects.all().count(), 2)
+
+        # Check that the name of the existing object is "existing"
+        self.assertEqual(existing_content.name, "test")
 
     def test_paid_content_list(self):
         response = self.client.get(self.paid_list_url)

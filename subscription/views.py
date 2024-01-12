@@ -5,6 +5,8 @@ from django.conf import settings
 
 import stripe
 
+from subscription.models import Payment
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -38,6 +40,7 @@ class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         # Создаем подписку как объект платежа Stripe
 
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         product = stripe.Product.create(
             # Данные для отображения на странице оплаты
             name="Бессрочная подписка",
@@ -69,6 +72,17 @@ class CreateCheckoutSessionView(View):
             success_url="http://127.0.0.1:8000/success/",
             cancel_url="http://127.0.0.1:8000/cancel/",
         )
+
+        checkout_session_id = session["id"]
+
+        user_data = self.request.user
+
+        Payment.objects.create(app_user=user_data, stripe_checkout_id=checkout_session_id)
+
+        checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
+
+        if checkout_session.payment_status == "paid":
+            user_data.is_subscribed = True
 
         return redirect(session.url, code=303)
 # from .forms import SubscriptionForm
