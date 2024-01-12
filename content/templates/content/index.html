@@ -16,21 +16,43 @@
                 </a>
                 {% endif %}
                 <div class="user-info" style="display: flex; align-items: center;">
-                    <a href="/profile/{{ object.user.pk }}" style="text-decoration: none; color: inherit;">@{{ object.user }}</a>
+                    <a href="/profile/{{ object.user.pk }}" style="text-decoration: none; color: inherit;">
+                        @{{ object.user }}
+                    </a>
                     {% if object.collection %}
                     <p style="margin: 0 8px;">from</p>
                     <a href="/col/{{ object.collection.pk }}">{{ object.collection }}</a>
                     {% endif %}
+                    {% if object.user == request.user %}
+                    <div class="d-flex justify-content-end">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'content:content_update' object.pk %}">Update</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{% url 'content:content_delete' object.pk %}">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
+
             </div>
             {% if object.preview %}
-            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
+            <div style="display: flex; justify-content: center;">
+                <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 82%;">
+            </div>
             {% endif %}
             <div class="post-content">
                 <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <a class="d-inline-flex focus-ring focus-ring-dark py-1 px-2 text-decoration-none border rounded-2" href="/post/{{ object.pk }}">Open the post</a>
+                <a class="d-inline-flex focus-ring focus-ring-dark py-1 px-2 text-decoration-none border rounded-2"
+                   href="/post/{{ object.pk }}">Open the post</a>
                 <p>{{ object.post_time|custom_timesince }} ago</p>
             </div>
         </div>

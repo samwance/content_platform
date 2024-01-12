@@ -65,6 +65,23 @@ class PaidContentList(ListView):
         return context_data
 
 
+class MyContentList(ListView):
+    model = Content
+    template_name = "content/my_content_list.html"
+    fields = "__all__"
+    extra_context = {"title": "My content"}
+
+    def get_queryset(self):
+        return Content.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        """Формируем данные для отображения в шаблоне страницы платного контента"""
+
+        context_data = super().get_context_data(**kwargs)
+
+        return context_data
+
+
 class ContentDetail(DetailView):
     model = Content
     template_name = "content/content_detail.html"
@@ -137,6 +154,22 @@ class CollectionList(ListView):
 
     def get_context_data(self, **kwargs):
         """Формируем данные для отображения в шаблоне страницы платного контента"""
+
+        context_data = super().get_context_data(**kwargs)
+
+        return context_data
+
+
+class MyCollectionList(ListView):
+    model = Collection
+    template_name = "content/my_collection_list.html"
+    fields = "__all__"
+    extra_context = {"title": "My ollections"}
+
+    def get_queryset(self):
+        return Collection.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
 
         context_data = super().get_context_data(**kwargs)
 

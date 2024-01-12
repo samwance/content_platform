@@ -14,12 +14,14 @@ class SubscriptionView(TemplateView):
     """Страница приобретения подписки"""
 
     template_name = "subscription/subscribe.html"
+    extra_context = {"title": "Subscribe?"}
 
 
 class SuccessView(TemplateView):
     """Успешная оплата"""
 
     template_name = "subscription/success.html"
+    extra_context = {"title": "Success"}
 
     def get(self, request, *args, **kwargs):
         # Retrieve the authenticated user
@@ -35,6 +37,7 @@ class CancelView(TemplateView):
     """Оплата не произведена"""
 
     template_name = "subscription/cancel.html"
+    extra_context = {"title": "Cancel"}
 
 
 class CreateCheckoutSessionView(View):

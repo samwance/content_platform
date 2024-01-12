@@ -4,8 +4,9 @@
             Content
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'content:index' %}">Free content</a></li>
-            <li><a class="dropdown-item" href="{% url 'content:paid_content' %}">Paid content</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:index' %}" data-title="Free content">Free content</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:paid_content' %}" data-title="Paid content">Paid content</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:my_content' %}">My posts</a></li>
             <li><a class="dropdown-item" href="{% url 'content:content_create' %}">Create post</a></li>
         </ul>
     </div>
@@ -15,6 +16,7 @@
         </button>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'content:collection_list' %}">Collections</a></li>
+            <li><a class="dropdown-item" href="{% url 'content:my_collection_list' %}">My collections</a></li>
             <li><a class="dropdown-item" href="{% url 'content:collection_create' %}">Create collection</a></li>
         </ul>
     </div>

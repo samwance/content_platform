@@ -1,0 +1,42 @@
+{% extends 'content/base.html' %}
+{% block content %}
+{% load myfilters %}
+<body>
+<div class="container">
+    <div class="row">
+        {% for object in object_list reversed %}
+    </div>
+
+    <div class="row">
+        <div class="feed-item">
+            <div class="media user-media" style="display: flex; align-items: center;">
+                {% if object.user.photo %}
+                <a href="/profile/{{ object.user.pk }}" class="media" style="display: flex;">
+                    <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28" height="28">
+                </a>
+                {% endif %}
+                <div class="user-info" style="display: flex; align-items: center;">
+                    <a href="/profile/{{ object.user.pk }}" style="text-decoration: none; color: inherit;">@{{ object.user }}</a>
+                </div>
+            </div>
+            {% if object.preview %}
+            <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
+            {% endif %}
+            <div class="post-content">
+                <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <a class="btn btn-lg btn-block btn-outline-primary" href="/col/{{ object.pk }}">Open the collection</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not object_list %}
+        <p>There're no collections here : )</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+
+
+{% endblock %}
+

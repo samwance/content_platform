@@ -16,40 +16,44 @@
     </div>
     {% endif %}
 </div>
-<div class="feed-item">
-    <div class="container">
-        <div class="row">
-            {% for object in posts reversed %}
-        </div>
+{% if posts %}
+    <div class="feed-item">
+        <div class="container">
+            <div class="row">
+                {% for object in posts reversed %}
+            </div>
 
-        <div class="row">
-            <div class="feed-item">
-                {% if object.user.photo %}
-                <div class="media" style="display: inline-block;">
-                    <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28"
-                         height="28">
-                </div>
-                {% endif %}
-                <div class="user-info" style="display: inline-block;">
-                    <div class="username-box">
-                        <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
+            <div class="row">
+                <div class="feed-item">
+                    {% if object.user.photo %}
+                    <div class="media" style="display: inline-block;">
+                        <img class="rounded-circle account-img" src="{{ object.user.photo.url }}" width="28"
+                             height="28">
+                    </div>
+                    {% endif %}
+                    <div class="user-info" style="display: inline-block;">
+                        <div class="username-box">
+                            <a href="/profile/{{ object.user.pk }}">@{{ object.user }}</a>
+                        </div>
+                    </div>
+                    {% if object.preview %}
+                    <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
+                    {% endif %}
+                    <div class="post-content">
+                        <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
+                        <p>{{ object.post_time|custom_timesince }}</p>
                     </div>
                 </div>
-                {% if object.preview %}
-                <img src="{{ object.preview.url }}" alt="Preview" style="max-width: 75%; display: block;">
-                {% endif %}
-                <div class="post-content">
-                    <p>{{ object.description|linebreaksbr|truncatewords:125 }}</p>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <a class="btn btn-lg btn-block btn-outline-primary" href="/post/{{ object.pk }}">Open the post</a>
-                    <p>{{ object.post_time|custom_timesince }}</p>
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
+{% else %}
+<p>This collection is empty : )</p>
+{% endif %}
 </body>
 
 {% endblock %}
