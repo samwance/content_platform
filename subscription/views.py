@@ -18,6 +18,7 @@ class SubscriptionView(TemplateView):
 
 class SuccessView(TemplateView):
     """Успешная оплата"""
+
     template_name = "subscription/success.html"
 
     def get(self, request, *args, **kwargs):
@@ -27,7 +28,7 @@ class SuccessView(TemplateView):
         user.is_subscribed = True
         user.save()
         # Render the success template
-        return render(request, self.template_name, {'user': user})
+        return render(request, self.template_name, {"user": user})
 
 
 class CancelView(TemplateView):
@@ -77,7 +78,9 @@ class CreateCheckoutSessionView(View):
 
         user_data = self.request.user
 
-        Payment.objects.create(app_user=user_data, stripe_checkout_id=checkout_session_id)
+        Payment.objects.create(
+            app_user=user_data, stripe_checkout_id=checkout_session_id
+        )
 
         checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
 
@@ -85,6 +88,8 @@ class CreateCheckoutSessionView(View):
             user_data.is_subscribed = True
 
         return redirect(session.url, code=303)
+
+
 # from .forms import SubscriptionForm
 # from .models import Subscription
 #

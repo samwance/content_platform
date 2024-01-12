@@ -14,10 +14,7 @@ class TestContentViews(TestCase):
         self.client = Client()
 
         self.user = User.objects.create(
-            phone="12345678",
-            name="user",
-            password="12345",
-            is_subscribed=True
+            phone="12345678", name="user", password="12345", is_subscribed=True
         )
         self.collection = Collection.objects.create(
             user=self.user,

@@ -1,4 +1,3 @@
-
 from django.test import TestCase, Client
 
 from django.urls import reverse
@@ -10,9 +9,7 @@ from users.models import User
 class TestPaymentViews(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create(
-            phone=12345678, name="User"
-        )
+        self.user = User.objects.create(phone=12345678, name="User")
         self.client.force_login(self.user)
         self.create_url = reverse("subscription:create-checkout-session")
         self.payment_1 = Payment.objects.create(
