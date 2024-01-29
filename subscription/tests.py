@@ -1,22 +1,23 @@
 from django.test import TestCase, Client
+
 from django.urls import reverse
 
-from subscription.models import Subscription
+from subscription.models import Payment
 from users.models import User
 
 
-class TestSubscriptionViews(TestCase):
+class TestPaymentViews(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create(phone=12345678, name="user")
+        self.user = User.objects.create(phone=12345678, name="User")
         self.client.force_login(self.user)
-        self.create_url = reverse("subscription:subscribe")
-        self.payment = Subscription.objects.create(
-            user=self.user,
-            is_active=False,
+        self.create_url = reverse("subscription:create-checkout-session")
+        self.payment_1 = Payment.objects.create(
+            app_user=self.user,
+            stripe_checkout_id="test12345",
         )
 
-    def test_sub_create(self):
+    def test_payment_create(self):
         response = self.client.post(self.create_url)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(Subscription.objects.all().count(), 1)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Payment.objects.all().count(), 2)

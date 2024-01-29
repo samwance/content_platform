@@ -1,0 +1,17 @@
+{% extends 'content/base.html' %}
+{% block content %}
+<body>
+<div style="text-align: center;">
+    <div>
+    <h1 style="display: inline-block;">Thanks for your subscription</h1>
+    </div>
+</div>
+<div style="text-align: center;">
+    <div>
+     <a class="d-inline-flex focus-ring focus-ring-dark py-1 px-2 text-decoration-none border rounded-2" href="{% url 'content:paid_content' %}">Перейти к платному контенту</a>
+    </div>
+</div>
+<p>
+</p>
+</body>
+{% endblock %}

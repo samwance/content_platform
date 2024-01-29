@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from subscription.models import Subscription
+from subscription.models import Payment
 
 
-@admin.register(Subscription)
-class SubscriptionAdmin(admin.ModelAdmin):
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
     list_display = ("__str__",)

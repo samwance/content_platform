@@ -7,7 +7,12 @@ from content.views import (
     PaidContentList,
     ContentDetail,
     ContentUpdate,
-    ContentDelete, CollectionCreate, CollectionDetail, CollectionUpdate, CollectionDelete,
+    ContentDelete,
+    CollectionCreate,
+    CollectionDetail,
+    CollectionUpdate,
+    CollectionDelete,
+    CollectionList, MyContentList, MyCollectionList,
 )
 
 app_name = ContentConfig.name
@@ -19,6 +24,9 @@ urlpatterns = [
     path("post/<pk>/update/", ContentUpdate.as_view(), name="content_update"),
     path("post/<pk>/delete/", ContentDelete.as_view(), name="content_delete"),
     path("paid/", PaidContentList.as_view(), name="paid_content"),
+    path("my_posts/", MyContentList.as_view(), name="my_content"),
+    path("cols/", CollectionList.as_view(), name="collection_list"),
+    path("my_cols/", MyCollectionList.as_view(), name="my_collection_list"),
     path("col/create/", CollectionCreate.as_view(), name="collection_create"),
     path("col/<pk>/", CollectionDetail.as_view(), name="collection_detail"),
     path("col/<pk>/edit/", CollectionUpdate.as_view(), name="collection_update"),

@@ -1,19 +1,20 @@
-{% extends 'content/base.html' %}
-
+{% extends 'content/base2.html' %}
 {% block content %}
-  <h1>Subscribe to our service</h1>
-  {% load crispy_forms_tags %}
-
-    <form method="post">
+<body>
+<div style="text-align: center;">
+    <div>
+    <h1 style="display: inline-block;">Subscription to our service</h1>
+    <h3 class="h3 mb-3 fw-normal">The sub will cost 100 rub</h3>
+    </div>
+</div>
+<main class="form-signin w-100 m-auto">
+    <form action="{% url 'subscription:create-checkout-session' %}" method="POST">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}"/>
-        <div class="form-error">{{ form.non_field_errors }}</div>
-        {% for f in form %}
-        <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-        <div class="form-error">{{ f.errors }}</div>
-        {% endfor %}
-        <p>
-            <button type="submit">Save</button>
-        </p>
+        <button type="submit" class="btn btn-primary w-100 py-2" id="checkout-button">Purchase</button>
     </form>
+</main>
+
+</body>
+
+
 {% endblock %}

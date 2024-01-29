@@ -5,63 +5,9 @@
     <title>{{ title }}</title>
 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+
+
     <style>
-        /* Общие стили */
-        .dark-font {
-          color: #333; /* Replace with your desired dark color code */
-        }
-        .d-flex {
-          display: flex;
-          justify-content: center; /* Horizontally center the items */
-          align-items: center; /* Vertically center the items */
-          flex-direction: column; /* Stack the items vertically */
-        }
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-        .feed-item {
-            border: 1px solid #e1e1e1;
-            border-radius: 5px;
-            margin: 10px;
-            padding: 10px;
-        }
-        .user-info {
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        .username-box {
-            margin-left: 10px;
-        }
-        .post-content {
-            margin-top: 10px;
-        }
-        /* Стили для аватаров */
-        .account-img {
-            width: 28px;
-            height: 28px;
-            object-fit: cover;
-        }
-        .rounded-circle {
-            border-radius: 50%;
-        }
-        /* Стили для изображений */
-        .media {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-        }
-        .img-thumbnail {
-            border: 1px solid #e1e1e1;
-            border-radius: 5px;
-            padding: 5px;
-        }
         .bd-placeholder-img {
           font-size: 1.125rem;
           text-anchor: middle;
@@ -139,13 +85,12 @@
           display: block !important;
         }
     </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
-{% if not user.is_authenticated %}
-    <script>
-        window.location.replace("{% url 'users:register' %}");
-    </script>
-{% endif %}
 
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="check2" viewBox="0 0 16 16">
@@ -214,49 +159,8 @@
         </li>
     </ul>
 </div>
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3">
-    <h2 class="h2">Paid content posting platform</h2>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}">Выход</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile/{{ user.pk }}/">{{request.user.name}}</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">Вход</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
-                    </li>
-                    {% endif %}
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
-
-{% include 'content/include/inc_menu.html' %}
-
 {% block content%}
 {% endblock %}
-<footer>
-<tr><td valign=top>
-	<div id="footer">
-		<p>&copy; 2023 Paid content posting platform</p>
-	</div>
-</td></tr>
-</footer>
 
 <script src="{% static 'js/bundle.min.js' %}"></script>
 <script src='{% static "/js/color-modes.js" %}'></script>

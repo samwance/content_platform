@@ -3,6 +3,7 @@
 ### Description: 
 A platform for publishing user-generated content, with support for free and paid content. Free content is accessible to anyone without registration, while paid content requires a one-time subscription paid for by authorized users. This project utilizes Django and PostgreSQL as the backend framework and database, respectively. Stripe is integrated for handling subscription payments. User registration is based on phone numbers.
 
+The frontend part of the project was made by using Boostrap
 ## Getting Started:
 
 1) Clone the repository:
@@ -23,13 +24,15 @@ docker-compose up --build
 ```
 python manage.py migrate
 ```
-To reate a superuser for the Django admin site:
+To create a superuser for the Django admin site:
 ```
 python manage.py createsuperuser
 ```
 
 Start the Django development server:
+```
 python manage.py runserver
+```
 Open your web browser and navigate to http://localhost:8000/admin/ to access the Django admin site.
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
